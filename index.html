@@ -9,9 +9,7 @@
     <!-- Inter Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <style>
-        body {
-            font-family: 'Inter', 'Kanit', sans-serif;
-        }
+        body { font-family: 'Inter', 'Kanit', sans-serif; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
@@ -95,19 +93,9 @@
 
     </div>
 
-    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        // *** 1. ไม่ต้อง import 'auth' แล้ว ***
-        import { 
-            getFirestore, 
-            collection, 
-            addDoc, 
-            query, 
-            onSnapshot, 
-            doc, 
-            deleteDoc
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, query, onSnapshot, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBxgoNJobE20jv6HrfGhVxMzS85ARsudg0",
@@ -123,15 +111,15 @@
         const thaiDaysShort = ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"];
         const todayString = new Date().toISOString().split('T')[0];
 
-        // *** 2. ไม่ต้องใช้ state เกี่ยวกับ user แล้ว ***
         let app, db;
         let activitiesCollectionRef, categoriesCollectionRef;
-        let isReady = false; 
+        let isReady = false;
 
         let currentStartYear;
         let allCategories = new Map();
         let allActivities = [];
 
+        // ... (DOM Elements เหมือนเดิม ไม่ต้องแก้) ...
         const yearSubtitleHeader = document.getElementById('year-subtitle-header');
         const prevYearBtn = document.getElementById('prev-year-btn');
         const nextYearBtn = document.getElementById('next-year-btn');
@@ -161,29 +149,30 @@
                 app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 
-                // *** 3. เปลี่ยน Path ให้เป็นคอลเลกชันส่วนกลาง (Shared) ***
-                const activitiesPath = `artifacts/labevent-v1/shared/monthly_activities`;
-                const categoriesPath = `artifacts/labevent-v1/shared/activity_categories`;
+                // *** ✨ แก้ไข Path ตรงนี้ ✨ ***
+                const activitiesPath = 'artifacts/labevent-v1/shared_activities'; // 3 ส่วน (ถูกต้อง)
+                const categoriesPath = 'artifacts/labevent-v1/shared_categories'; // 3 ส่วน (ถูกต้อง)
+                
                 activitiesCollectionRef = collection(db, activitiesPath);
                 categoriesCollectionRef = collection(db, categoriesPath);
-
+                
                 isReady = true;
-                console.log("App is ready. Using shared data collections.");
+                console.log("Using Shared Collections. Paths are valid.");
+                
                 setupApp();
-
             } catch (error) {
                 console.error("Firebase initialization failed:", error);
-                reportContainer.innerHTML = "<p class='text-red-500 col-span-full'>เกิดข้อผิดพลาดในการเริ่มต้น Firebase: " + error.message + "</p>";
+                reportContainer.innerHTML = `<p class='text-red-500 col-span-full'>เกิดข้อผิดพลาดในการเริ่มต้น Firebase: ${error.message}</p>`;
             }
         }
         
+        // --- ส่วนที่เหลือของโค้ดเหมือนเดิมทั้งหมด ---
+
         function setupApp() {
             if (!isReady) return;
-            
             const today = new Date();
             currentStartYear = (today.getMonth() < 9) ? today.getFullYear() - 1 : today.getFullYear();
             activityDateInput.value = todayString;
-
             setupListeners();
             listenForCategories(); 
             listenForActivities(); 
@@ -191,37 +180,29 @@
 
         function updateView() {
             loadingMsg.classList.add('hidden');
-            
             const startYear = currentStartYear;
             const endYear = startYear + 1;
             yearSubtitleHeader.textContent = `ตุลาคม ${startYear} - กันยายน ${endYear}`;
             reportContainer.innerHTML = '';
-
             const monthsToDisplay = [];
             for (let m = 9; m <= 11; m++) monthsToDisplay.push({ month: m, year: startYear });
             for (let m = 0; m <= 8; m++) monthsToDisplay.push({ month: m, year: endYear });
-
             const activitiesByMonth = new Map();
             for (const act of allActivities) {
                 const monthYearKey = act.date.substring(0, 7);
                 if (!activitiesByMonth.has(monthYearKey)) activitiesByMonth.set(monthYearKey, []);
                 activitiesByMonth.get(monthYearKey).push(act);
             }
-
             monthsToDisplay.forEach(monthObj => {
                 const monthIndex = monthObj.month;
                 const year = monthObj.year;
                 const monthYearKey = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
-                
                 const activities = activitiesByMonth.get(monthYearKey) || [];
                 activities.sort((a, b) => a.date.localeCompare(b.date));
-                
                 const calendarHTML = createMonthCalendarHTML(monthIndex, year);
                 const activityHTML = createMonthActivityListHTML(activities);
-                
                 const monthBlock = document.createElement('div');
                 monthBlock.className = 'month-report-block bg-white shadow-lg rounded-xl p-4 sm:p-6';
-                
                 monthBlock.innerHTML = `
                     <h3 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2 text-zinc-500">${thaiMonths[monthIndex]} ${year + 543}</h3>
                     <div class="flex flex-col lg:flex-row gap-6">
@@ -231,13 +212,11 @@
                 `;
                 reportContainer.appendChild(monthBlock);
             });
-            
             const selectedDate = activityDateInput.value;
             if (selectedDate) {
                  const cell = reportContainer.querySelector(`.day-cell[data-date="${selectedDate}"]`);
                  if (cell) cell.classList.add('selected');
             }
-
             setTimeout(updateActivityDots, 0);
         }
 
@@ -247,8 +226,7 @@
             let html = `<div class="p-2 sm:p-4 rounded-lg bg-white border h-full">`;
             html += `<div class="grid grid-cols-7 text-center text-xs font-semibold text-gray-500 mb-2">`;
             thaiDaysShort.forEach(day => { html += `<div class="w-8 h-8 flex items-center justify-center">${day}</div>`; });
-            html += `</div>`;
-            html += `<div class="grid grid-cols-7 text-center text-sm">`;
+            html += `</div><div class="grid grid-cols-7 text-center text-sm">`;
             for (let i = 0; i < firstDayOfWeek; i++) html += `<div></div>`;
             for (let day = 1; day <= daysInMonth; day++) {
                 const dateStr = `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -318,7 +296,8 @@
         
         function listenForCategories() {
             if (!isReady) return;
-            onSnapshot(query(categoriesCollectionRef), (snapshot) => {
+            const q = query(categoriesCollectionRef);
+            onSnapshot(q, (snapshot) => {
                 allCategories.clear();
                 snapshot.docs.forEach(doc => { allCategories.set(doc.id, { id: doc.id, ...doc.data() }); });
                 renderCategoryUI();
@@ -359,7 +338,6 @@
         
         function listenForActivities() {
             if (!isReady) return;
-            // *** 4. ไม่ต้องใช้ where() ใน query แล้ว ***
             const q = query(activitiesCollectionRef);
             onSnapshot(q, (snapshot) => {
                 allActivities = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -402,10 +380,7 @@
             e.preventDefault();
             const date = activityDateInput.value, categoryId = activityCategorySelect.value, description = activityDescInput.value.trim();
             if (!isReady || !date || !categoryId || !description) return;
-            
-            // *** 5. ไม่ต้องเพิ่ม userId ในข้อมูลแล้ว ***
             const newActivity = { date, categoryId, description, createdAt: new Date().toISOString() };
-            
             try {
                 await addDoc(activitiesCollectionRef, newActivity);
                 activityDescInput.value = '';
@@ -416,10 +391,7 @@
             e.preventDefault();
             const name = categoryNameInput.value.trim(), color = categoryColorInput.value;
             if (!isReady || !name) return;
-
-            // *** 5. ไม่ต้องเพิ่ม userId ในข้อมูลแล้ว ***
             const newCategory = { name, color, createdAt: new Date().toISOString() };
-
             try {
                 await addDoc(categoriesCollectionRef, newCategory);
                 categoryNameInput.value = ''; categoryColorInput.value = '#3b82f6';
@@ -429,19 +401,4 @@
         async function handleDeleteActivity(docId) {
             if (!isReady || !window.confirm("ลบกิจกรรมนี้?")) return;
             try {
-                await deleteDoc(doc(db, activitiesCollectionRef.path, docId));
-            } catch (error) { console.error("Error deleting activity: ", error); }
-        }
-        
-        async function handleDeleteCategory(docId) {
-            // เราสามารถลบประเภทได้เลย แต่ต้องแน่ใจว่ากิจกรรมที่เคยใช้ประเภทนี้จะยังแสดงผลได้ (แม้จะไม่มีสี/ชื่อประเภท)
-            if (!isReady || !window.confirm("การลบประเภทจะทำให้กิจกรรมที่เกี่ยวข้องไม่แสดงชื่อประเภท ยืนยันหรือไม่?")) return;
-            try {
-                await deleteDoc(doc(db, categoriesCollectionRef.path, docId));
-            } catch (error) { console.error("Error deleting category: ", error); }
-        }
-
-        document.addEventListener('DOMContentLoaded', initFirebase);
-    </script>
-</body>
-</html>
+ 
