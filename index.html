@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>รายงานกิจกรรม 12 เดือน (ส่วนกลาง)</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <style>
         body { font-family: 'Inter', 'Kanit', sans-serif; }
@@ -113,13 +111,12 @@
 
         let app, db;
         let activitiesCollectionRef, categoriesCollectionRef;
-        let isReady = false;
+        let isReady = false; 
 
         let currentStartYear;
         let allCategories = new Map();
         let allActivities = [];
 
-        // ... (DOM Elements เหมือนเดิม ไม่ต้องแก้) ...
         const yearSubtitleHeader = document.getElementById('year-subtitle-header');
         const prevYearBtn = document.getElementById('prev-year-btn');
         const nextYearBtn = document.getElementById('next-year-btn');
@@ -149,25 +146,24 @@
                 app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 
-                // *** ✨ แก้ไข Path ตรงนี้ ✨ ***
-                const activitiesPath = 'artifacts/labevent-v1/shared_activities'; // 3 ส่วน (ถูกต้อง)
-                const categoriesPath = 'artifacts/labevent-v1/shared_categories'; // 3 ส่วน (ถูกต้อง)
+                // *** แก้ไข Path ให้มีจำนวนส่วนเป็นเลขคี่ (5 ส่วน) ***
+                // รูปแบบ: collection/document/collection/document/collection
+                const activitiesPath = `artifacts/labevent-v1/shared-data/main/monthly_activities`;
+                const categoriesPath = `artifacts/labevent-v1/shared-data/main/activity_categories`;
                 
                 activitiesCollectionRef = collection(db, activitiesPath);
                 categoriesCollectionRef = collection(db, categoriesPath);
-                
+
                 isReady = true;
-                console.log("Using Shared Collections. Paths are valid.");
-                
+                console.log("App is ready. Using shared data collections.");
                 setupApp();
+
             } catch (error) {
                 console.error("Firebase initialization failed:", error);
-                reportContainer.innerHTML = `<p class='text-red-500 col-span-full'>เกิดข้อผิดพลาดในการเริ่มต้น Firebase: ${error.message}</p>`;
+                reportContainer.innerHTML = "<p class='text-red-500 col-span-full'>เกิดข้อผิดพลาดในการเริ่มต้น Firebase: " + error.message + "</p>";
             }
         }
         
-        // --- ส่วนที่เหลือของโค้ดเหมือนเดิมทั้งหมด ---
-
         function setupApp() {
             if (!isReady) return;
             const today = new Date();
@@ -184,25 +180,32 @@
             const endYear = startYear + 1;
             yearSubtitleHeader.textContent = `ตุลาคม ${startYear} - กันยายน ${endYear}`;
             reportContainer.innerHTML = '';
+
             const monthsToDisplay = [];
             for (let m = 9; m <= 11; m++) monthsToDisplay.push({ month: m, year: startYear });
             for (let m = 0; m <= 8; m++) monthsToDisplay.push({ month: m, year: endYear });
+
             const activitiesByMonth = new Map();
             for (const act of allActivities) {
                 const monthYearKey = act.date.substring(0, 7);
                 if (!activitiesByMonth.has(monthYearKey)) activitiesByMonth.set(monthYearKey, []);
                 activitiesByMonth.get(monthYearKey).push(act);
             }
+
             monthsToDisplay.forEach(monthObj => {
                 const monthIndex = monthObj.month;
                 const year = monthObj.year;
                 const monthYearKey = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
+                
                 const activities = activitiesByMonth.get(monthYearKey) || [];
                 activities.sort((a, b) => a.date.localeCompare(b.date));
+                
                 const calendarHTML = createMonthCalendarHTML(monthIndex, year);
                 const activityHTML = createMonthActivityListHTML(activities);
+                
                 const monthBlock = document.createElement('div');
                 monthBlock.className = 'month-report-block bg-white shadow-lg rounded-xl p-4 sm:p-6';
+                
                 monthBlock.innerHTML = `
                     <h3 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2 text-zinc-500">${thaiMonths[monthIndex]} ${year + 543}</h3>
                     <div class="flex flex-col lg:flex-row gap-6">
@@ -212,6 +215,7 @@
                 `;
                 reportContainer.appendChild(monthBlock);
             });
+            
             const selectedDate = activityDateInput.value;
             if (selectedDate) {
                  const cell = reportContainer.querySelector(`.day-cell[data-date="${selectedDate}"]`);
@@ -296,8 +300,7 @@
         
         function listenForCategories() {
             if (!isReady) return;
-            const q = query(categoriesCollectionRef);
-            onSnapshot(q, (snapshot) => {
+            onSnapshot(query(categoriesCollectionRef), (snapshot) => {
                 allCategories.clear();
                 snapshot.docs.forEach(doc => { allCategories.set(doc.id, { id: doc.id, ...doc.data() }); });
                 renderCategoryUI();
@@ -401,4 +404,18 @@
         async function handleDeleteActivity(docId) {
             if (!isReady || !window.confirm("ลบกิจกรรมนี้?")) return;
             try {
- 
+                await deleteDoc(doc(db, activitiesCollectionRef.path, docId));
+            } catch (error) { console.error("Error deleting activity: ", error); }
+        }
+        
+        async function handleDeleteCategory(docId) {
+            if (!isReady || !window.confirm("การลบประเภทจะทำให้กิจกรรมที่เกี่ยวข้องไม่แสดงชื่อประเภท ยืนยันหรือไม่?")) return;
+            try {
+                await deleteDoc(doc(db, categoriesCollectionRef.path, docId));
+            } catch (error) { console.error("Error deleting category: ", error); }
+        }
+
+        document.addEventListener('DOMContentLoaded', initFirebase);
+    </script>
+</body>
+</html>
