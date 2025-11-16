@@ -299,29 +299,12 @@ function createActivityListHTML(acts) {
     const cat=allCategories.get(act.categoryId);
     const color=cat?cat.color:'#999';
     const catName=cat?cat.name:'ไม่ทราบประเภท';
-    html+=` <div class="report-activity-card bg-gray-50 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow" style="border-color: ${color};">
-                        <div class="flex justify-between items-start">
-                            <!-- START: Combined Day number and Description/Metadata -->
-                            <div class="flex items-start gap-3">
-                                <!-- เลขวันที่ (Prominent) -->
-                                
-                                <span class="text-lg font-extrabold  w-6 text-right">${day}</span>
-                                <div>
-                                    <!-- Description -->
-                                    <p class="text-base font-medium text-gray-900">${act.description}</p>
-                                    <!-- Full Date (Secondary) -->
-                                    <p class="text-xs font-medium text-gray-500 -mt-1">${formattedDate}</p>
-                                    <!-- Category -->
-                                   
-                                </div>
-                                 <p class="text-xs font-semibold mt-1" style="color: ${color};">${categoryName}</p>
-                            </div>
-                            <!-- END: Combined Day number and Description/Metadata -->
-                            <button class="delete-activity-btn text-red-400 hover:text-red-600 p-1" data-id="${act.id}">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6 8a1 1 0 00-1 1v6a1 1 0 102 0V9a1 1 0 00-1-1zM10 8a1 1 0 00-1 1v6a1 1 0 102 0V9a1 1 0 00-1-1zM14 8a1 1 0 00-1 1v6a1 1 0 102 0V9a1 1 0 00-1-1zM4 6h12v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm3 0V4a2 2 0 012-2h2a2 2 0 012 2v2H7z"></path></svg>
-                            </button>
-                        </div>
-                    </div>`;
+    html+=`<div class="report-activity-card relative mb-3 p-3 rounded-md shadow-sm border-l-8" style="border-color:${color}">
+      <div class="flex justify-between items-center mb-1"><span class="font-medium text-gray-800">${catName}</span>
+      <button class="delete-activity-btn text-red-400 hover:text-red-600 p-1" data-id="${act.id}"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 6h6v10H7V6zm2 2v6h2V8H9z" clip-rule="evenodd"></path></svg></button></div>
+      <p class="text-gray-700 text-sm">${act.description}</p>
+      <p class="text-gray-400 text-xs mt-1">${formatThaiDate(act.date)}</p>
+    </div>`;
   });
   return html;
 }
