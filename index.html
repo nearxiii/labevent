@@ -1,108 +1,108 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รายงานกิจกรรม 12 เดือน (Vercel Ready)</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-    <style>
-        body {
-            font-family: 'Inter', 'Kanit', sans-serif; 
-        }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        .day-cell.today { background-color: #fce7f3; color: #db2777; font-weight: bold; }
-        .day-cell.selected { background-color: #3b82f6 !important; color: white !important; }
-        .dot-container { position: absolute; bottom: 2px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 1px; padding: 0 4px; flex-wrap: wrap; }
-        .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-        .report-activity-card { border-left-width: 8px; }
-        input[type="color"] { -webkit-appearance: none; -moz-appearance: none; appearance: none; width: 2.5rem; height: 2.5rem; padding: 0; border: none; border-radius: 0.375rem; cursor: pointer; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); }
-        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
-        input[type="color"]::-webkit-color-swatch { border: 1px solid #d1d5db; border-radius: 0.375rem; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>รายงานกิจกรรม 12 เดือน (Vercel Ready)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+body { font-family: 'Inter', 'Kanit', sans-serif; }
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+.day-cell.today { background-color: #fce7f3; color: #db2777; font-weight: bold; }
+.day-cell.selected { background-color: #3b82f6 !important; color: white !important; }
+.dot-container { position: absolute; bottom: 2px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 1px; padding: 0 4px; flex-wrap: wrap; }
+.dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.report-activity-card { border-left-width: 8px; }
+input[type="color"] { -webkit-appearance: none; -moz-appearance: none; appearance: none; width: 2.5rem; height: 2.5rem; padding: 0; border: none; border-radius: 0.375rem; cursor: pointer; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); }
+input[type="color"]::-webkit-color-swatch-wrapper { padding:0; }
+input[type="color"]::-webkit-color-swatch { border:1px solid #d1d5db; border-radius:0.375rem; }
+</style>
 </head>
 <body class="bg-gray-100">
 
 <div class="max-w-5xl mx-auto p-4 sm:p-6">
 
-    <header class="bg-white p-6 rounded-xl shadow-xl mb-8">
-        <div class="flex justify-between items-center mb-6">
-            <button id="prev-year-btn" class="p-2 rounded-full hover:bg-gray-200">
-                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+<header class="bg-white p-6 rounded-xl shadow-xl mb-8">
+  <div class="flex justify-between items-center mb-6">
+    <button id="prev-year-btn" class="p-2 rounded-full hover:bg-gray-200">
+      <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+    </button>
+    <h1 id="year-range-header" class="text-xl sm:text-3xl font-bold text-gray-800 text-center">
+      รายงานกิจกรรมประจำปี (ต.ค. - ก.ย.)
+    </h1>
+    <button id="next-year-btn" class="p-2 rounded-full hover:bg-gray-200">
+      <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+    </button>
+  </div>
+  <h2 id="year-subtitle-header" class="text-center text-lg sm:text-xl text-rose-500 font-semibold -mt-4 mb-4">
+    ตุลาคม 2024 - กันยายน 2025
+  </h2>
+
+  <div class="space-y-6 border-t pt-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- ฟอร์มเพิ่มกิจกรรม -->
+      <div>
+        <h3 class="text-lg font-semibold mb-3 text-gray-800">1. เพิ่มกิจกรรมใหม่</h3>
+        <form id="activity-form" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="col-span-1">
+            <label for="activity-date" class="block text-sm font-medium text-gray-700">วันที่</label>
+            <input type="date" id="activity-date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+          </div>
+          <div class="col-span-1">
+            <label for="activity-category" class="block text-sm font-medium text-gray-700">ประเภท</label>
+            <select id="activity-category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required></select>
+          </div>
+          <div class="col-span-full">
+            <label for="activity-desc" class="block text-sm font-medium text-gray-700">กิจกรรม</label>
+            <input type="text" id="activity-desc" placeholder="เช่น: ประชุมกับลูกค้า" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
+          </div>
+          <div class="col-span-full">
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-zinc-700 hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-500">
+              บันทึกกิจกรรม
             </button>
-            <h1 id="year-range-header" class="text-xl sm:text-3xl font-bold text-gray-800 text-center">
-                รายงานกิจกรรมประจำปี (ต.ค. - ก.ย.)
-            </h1>
-            <button id="next-year-btn" class="p-2 rounded-full hover:bg-gray-200">
-                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- จัดการประเภท -->
+      <div id="category-management-box">
+        <h3 class="text-lg font-semibold mb-3 text-gray-800">2. จัดการประเภทกิจกรรม</h3>
+        <div id="category-list" class="space-y-2 mb-4 p-2 rounded-md border border-gray-200">
+          <p id="no-category-msg" class="text-gray-500 text-center">ยังไม่มีประเภท</p>
         </div>
-        <h2 id="year-subtitle-header" class="text-center text-lg sm:text-xl text-rose-500 font-semibold -mt-4 mb-4">
-            ตุลาคม 2024 - กันยายน 2025
-        </h2>
-        <div class="space-y-6 border-t pt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <form id="category-form" class="flex gap-2 items-center">
+          <input type="text" id="category-name" placeholder="ชื่อประเภทใหม่" class="flex-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" required>
+          <input type="color" id="category-color" value="#3b82f6">
+          <button type="submit" class="p-2 rounded-md text-white bg-zinc-700 hover:bg-zinc-900">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
 
-                <!-- เพิ่มกิจกรรม -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800">1. เพิ่มกิจกรรมใหม่</h3>
-                    <form id="activity-form" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="col-span-1">
-                            <label for="activity-date" class="block text-sm font-medium text-gray-700">วันที่</label>
-                            <input type="date" id="activity-date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
-                        </div>
-                        <div class="col-span-1">
-                            <label for="activity-category" class="block text-sm font-medium text-gray-700">ประเภท</label>
-                            <select id="activity-category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required></select>
-                        </div>
-                        <div class="col-span-full">
-                            <label for="activity-desc" class="block text-sm font-medium text-gray-700">กิจกรรม</label>
-                            <input type="text" id="activity-desc" placeholder="เช่น: ประชุมกับลูกค้า" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" required>
-                        </div>
-                        <div class="col-span-full">
-                            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-zinc-700 hover:bg-zinc-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-500">
-                                บันทึกกิจกรรม
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- จัดการประเภท -->
-                <div>
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800">2. จัดการประเภทกิจกรรม</h3>
-                    <div id="category-list" class="space-y-2 mb-4 p-2 rounded-md border border-gray-200">
-                        <p id="no-category-msg" class="text-gray-500 text-center">ยังไม่มีประเภท</p>
-                    </div>
-                    <form id="category-form" class="flex gap-2 items-center">
-                        <input type="text" id="category-name" placeholder="ชื่อประเภทใหม่" class="flex-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm" required>
-                        <input type="color" id="category-color" value="#3b82f6">
-                        <button type="submit" class="p-2 rounded-md text-white bg-zinc-700 hover:bg-zinc-900">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
-                        </button>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </header>
-
-    <main id="report-container" class="space-y-8">
-        <p id="loading-msg" class="text-center text-gray-500">กำลังโหลดข้อมูล...</p>
-    </main>
-
+<main id="report-container" class="space-y-8">
+  <p id="loading-msg" class="text-center text-gray-500">กำลังโหลดข้อมูล...</p>
+</main>
 </div>
 
 <script type="module">
+// --- Firebase Setup ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, query, where, onSnapshot, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
 
-// ------------------ Firebase config ------------------
 const firebaseConfig = {
   apiKey: "AIzaSyBxgoNJobE20jv6HrfGhVxMzS85ARsudg0",
   authDomain: "labevent-49643.firebaseapp.com",
@@ -118,275 +118,211 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// ------------------ State ------------------
+// --- App State ---
 let userId;
+let currentStartYear;
 let allCategories = new Map();
 let allActivities = [];
-let currentStartYear;
+const todayString = new Date().toISOString().split('T')[0];
 const thaiMonths = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
 const thaiDaysShort = ["อา","จ","อ","พ","พฤ","ศ","ส"];
-const todayString = new Date().toISOString().split('T')[0];
 
-// ------------------ DOM ------------------
+// --- DOM Elements ---
 const yearSubtitleHeader = document.getElementById('year-subtitle-header');
 const reportContainer = document.getElementById('report-container');
 const loadingMsg = document.getElementById('loading-msg');
+const prevYearBtn = document.getElementById('prev-year-btn');
+const nextYearBtn = document.getElementById('next-year-btn');
+
 const categoryList = document.getElementById('category-list');
 const noCategoryMsg = document.getElementById('no-category-msg');
 const categoryForm = document.getElementById('category-form');
 const categoryNameInput = document.getElementById('category-name');
 const categoryColorInput = document.getElementById('category-color');
+
 const activityForm = document.getElementById('activity-form');
 const activityDateInput = document.getElementById('activity-date');
 const activityCategorySelect = document.getElementById('activity-category');
 const activityDescInput = document.getElementById('activity-desc');
-const prevYearBtn = document.getElementById('prev-year-btn');
-const nextYearBtn = document.getElementById('next-year-btn');
 
-// ------------------ Functions ------------------
-function formatThaiDate(dateString){
-    if(!dateString) return '';
-    const [y,m,d] = dateString.split('-');
-    return `${parseInt(d)} ${thaiMonths[parseInt(m)-1]} ${parseInt(y)+543}`;
-}
+// --- Initialize App ---
+activityDateInput.value = todayString;
 
-async function initApp(){
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    userId = user.uid;
+    startApp();
+  } else {
     await signInAnonymously(auth);
-    onAuthStateChanged(auth,user=>{
-        if(user){ userId=user.uid; setupApp(); }
-    });
+  }
+});
+
+function startApp() {
+  const today = new Date();
+  currentStartYear = (today.getMonth() < 9) ? today.getFullYear()-1 : today.getFullYear();
+  setupListeners();
+  listenCategories();
+  listenActivities();
 }
 
-function setupApp(){
-    const today = new Date();
-    currentStartYear = (today.getMonth()<9)? today.getFullYear()-1 : today.getFullYear();
-    activityDateInput.value = todayString;
-    listenCategories();
-    listenActivities();
-    setupListeners();
+// --- Helper ---
+function formatThaiDate(dateString) {
+  if(!dateString) return '';
+  const [y,m,d]=dateString.split('-'); return `${parseInt(d)} ${thaiMonths[parseInt(m)-1]} ${parseInt(y)+543}`;
 }
 
-function setupListeners(){
-    prevYearBtn.addEventListener('click',()=>{currentStartYear--; updateView();});
-    nextYearBtn.addEventListener('click',()=>{currentStartYear++; updateView();});
-    activityForm.addEventListener('submit',handleAddActivity);
-    categoryForm.addEventListener('submit',handleAddCategory);
+// --- Listeners ---
+function setupListeners() {
+  prevYearBtn.addEventListener('click',()=>{currentStartYear--; updateView();});
+  nextYearBtn.addEventListener('click',()=>{currentStartYear++; updateView();});
 
-    reportContainer.addEventListener('click',e=>{
-        const dayCell = e.target.closest('.day-cell');
-        if(dayCell && dayCell.dataset.date){
-            activityDateInput.value=dayCell.dataset.date;
-            document.querySelectorAll('.day-cell.selected').forEach(c=>c.classList.remove('selected'));
-            dayCell.classList.add('selected');
-        }
-        const deleteBtn = e.target.closest('.delete-activity-btn');
-        if(deleteBtn) handleDeleteActivity(deleteBtn.dataset.id);
-    });
-
-    categoryList.addEventListener('click',e=>{
-        const deleteBtn = e.target.closest('.delete-category-btn');
-        if(deleteBtn) handleDeleteCategory(deleteBtn.dataset.id);
-    });
-}
-
-function listenCategories(){
-    const q=query(collection(db,'users',userId,'activity_categories'));
-    onSnapshot(q,snapshot=>{
-        allCategories.clear();
-        snapshot.docs.forEach(doc=>{
-            allCategories.set(doc.id,{id:doc.id,...doc.data()});
-        });
-        renderCategories();
-        updateView();
-    });
-}
-
-function renderCategories(){
-    categoryList.innerHTML='';
-    activityCategorySelect.innerHTML='';
-    if(allCategories.size===0){
-        noCategoryMsg.classList.remove('hidden');
-        activityCategorySelect.innerHTML='<option value="" disabled selected>กรุณาเพิ่มประเภทก่อน</option>';
-        activityCategorySelect.required=false;
-        return;
+  reportContainer.addEventListener('click',(e)=>{
+    const dayCell=e.target.closest('.day-cell');
+    if(dayCell&&dayCell.dataset.date){
+      activityDateInput.value=dayCell.dataset.date;
+      document.querySelectorAll('.day-cell.selected').forEach(c=>c.classList.remove('selected'));
+      dayCell.classList.add('selected');
     }
-    noCategoryMsg.classList.add('hidden');
-    activityCategorySelect.required=true;
-    activityCategorySelect.innerHTML='<option value="" disabled selected>เลือกประเภทกิจกรรม</option>';
-    allCategories.forEach(cat=>{
-        const option=document.createElement('option');
-        option.value=cat.id; option.textContent=cat.name;
-        activityCategorySelect.appendChild(option);
+  });
 
-        const item=document.createElement('div');
-        item.className='flex items-center justify-between p-2 rounded-md hover:bg-gray-50 transition-colors';
-        item.innerHTML=`<div class="flex items-center gap-2"><span class="block w-4 h-4 rounded-full" style="background-color:${cat.color}"></span><span class="text-sm font-medium text-gray-800">${cat.name}</span></div><button class="delete-category-btn text-red-400 hover:text-red-600 p-1" data-id="${cat.id}"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 6h6v10H7V6zm2 2v6h2V8H9z" clip-rule="evenodd"/></svg></button>`;
-        categoryList.appendChild(item);
-    });
+  activityForm.addEventListener('submit',handleAddActivity);
+  categoryForm.addEventListener('submit',handleAddCategory);
+
+  reportContainer.addEventListener('click',(e)=>{
+    const del=e.target.closest('.delete-activity-btn');
+    if(del) handleDeleteActivity(del.dataset.id);
+  });
+
+  categoryList.addEventListener('click',(e)=>{
+    const del=e.target.closest('.delete-category-btn');
+    if(del) handleDeleteCategory(del.dataset.id);
+  });
 }
 
-function listenActivities(){
-    const q=query(collection(db,'users',userId,'monthly_activities'),where("userId","==",userId));
-    onSnapshot(q,snapshot=>{
-        allActivities=snapshot.docs.map(doc=>({id:doc.id,...doc.data()}));
-        updateView();
-    });
+// --- Firestore Listeners ---
+let categoriesCollectionRef, activitiesCollectionRef;
+function listenCategories() {
+  categoriesCollectionRef = collection(db, 'artifacts/labevent-v1/users/'+userId+'/activity_categories');
+  const q=query(categoriesCollectionRef);
+  onSnapshot(q, snapshot=>{
+    allCategories.clear();
+    snapshot.docs.forEach(d=>allCategories.set(d.id,{id:d.id,...d.data()}));
+    renderCategories();
+    updateView();
+  }, error=>{console.warn("Categories listener error:",error);});
 }
 
+function listenActivities() {
+  activitiesCollectionRef = collection(db, 'artifacts/labevent-v1/users/'+userId+'/monthly_activities');
+  const q=query(activitiesCollectionRef, where("userId","==",userId));
+  onSnapshot(q,snapshot=>{
+    allActivities = snapshot.docs.map(d=>({id:d.id,...d.data()}));
+    updateView();
+  },error=>{console.warn("Activities listener error:",error);});
+}
+
+// --- Render Categories ---
+function renderCategories() {
+  categoryList.innerHTML=''; activityCategorySelect.innerHTML='';
+  if(allCategories.size===0){
+    noCategoryMsg.classList.remove('hidden');
+    activityCategorySelect.innerHTML='<option value="" disabled selected>กรุณาเพิ่มประเภทก่อน</option>';
+    activityCategorySelect.required=false;
+    return;
+  }
+  noCategoryMsg.classList.add('hidden');
+  activityCategorySelect.required=true;
+  activityCategorySelect.innerHTML='<option value="" disabled selected>เลือกประเภทกิจกรรม</option>';
+  allCategories.forEach(cat=>{
+    const option=document.createElement('option'); option.value=cat.id; option.textContent=cat.name; activityCategorySelect.appendChild(option);
+    const item=document.createElement('div'); item.className='flex items-center justify-between p-2 rounded-md hover:bg-gray-50 transition-colors';
+    item.innerHTML=`<div class="flex items-center gap-2"><span class="block w-4 h-4 rounded-full" style="background-color:${cat.color};"></span><span class="text-sm font-medium text-gray-800">${cat.name}</span></div><button class="delete-category-btn text-red-400 hover:text-red-600 p-1" data-id="${cat.id}"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 6h6v10H7V6zm2 2v6h2V8H9z" clip-rule="evenodd"></path></svg></button>`;
+    categoryList.appendChild(item);
+  });
+}
+
+// --- Activity CRUD ---
+async function handleAddCategory(e){e.preventDefault(); const name=categoryNameInput.value.trim(), color=categoryColorInput.value; if(!name) return; await addDoc(categoriesCollectionRef,{name,color,userId,createdAt:new Date().toISOString()}); categoryNameInput.value=''; categoryColorInput.value='#3b82f6';}
+async function handleDeleteCategory(id){if(!window.confirm("ลบประเภทกิจกรรม?")) return; await deleteDoc(doc(categoriesCollectionRef,id));}
+async function handleAddActivity(e){e.preventDefault(); const date=activityDateInput.value, catId=activityCategorySelect.value, desc=activityDescInput.value.trim(); if(!date||!catId||!desc)return; await addDoc(activitiesCollectionRef,{date,categoryId:catId,description:desc,userId,createdAt:new Date().toISOString()}); activityDescInput.value='';}
+async function handleDeleteActivity(id){if(!window.confirm("ลบกิจกรรม?")) return; await deleteDoc(doc(activitiesCollectionRef,id));}
+
+// --- Render Report ---
 function updateView(){
-    loadingMsg.classList.add('hidden');
-    const endYear=currentStartYear+1;
-    const startThai=currentStartYear+543;
-    const endThai=endYear+543;
-    yearSubtitleHeader.textContent=`ตุลาคม ${currentStartYear} - กันยายน ${endYear} (พ.ศ. ${startThai}/${endThai})`;
-    reportContainer.innerHTML='';
-    const months=[];
-    for(let m=9;m<=11;m++) months.push({month:m,year:currentStartYear});
-    for(let m=0;m<=8;m++) months.push({month:m,year:endYear});
+  loadingMsg.classList.add('hidden');
+  const endYear=currentStartYear+1;
+  const startThaiYear=currentStartYear+543, endThaiYear=endYear+543;
+  yearSubtitleHeader.textContent=`ตุลาคม ${currentStartYear} - กันยายน ${endYear} (พ.ศ. ${startThaiYear}/${endThaiYear})`;
+  reportContainer.innerHTML='';
 
-    const activitiesForYear=allActivities.filter(act=>{
-        const y=parseInt(act.date.substring(0,4)),m=parseInt(act.date.substring(5,7))-1;
-        return (y===currentStartYear && m>=9)||(y===endYear && m<=8);
+  const months=[]; for(let m=9;m<=11;m++) months.push({month:m,year:currentStartYear}); for(let m=0;m<=8;m++) months.push({month:m,year:endYear});
+  const activitiesByMonth=new Map(); allActivities.forEach(act=>{const key=act.date.substring(0,7); if(!activitiesByMonth.has(key)) activitiesByMonth.set(key,[]); activitiesByMonth.get(key).push(act);});
+
+  months.forEach(m=>{
+    const key=`${m.year}-${String(m.month+1).padStart(2,'0')}`;
+    const acts=activitiesByMonth.get(key)||[];
+    acts.sort((a,b)=>a.date.localeCompare(b.date));
+    const monthBlock=document.createElement('div'); monthBlock.className='month-report-block bg-white shadow-lg rounded-xl p-4 sm:p-6';
+    monthBlock.innerHTML=`<h3 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2 text-zinc-500">${thaiMonths[m.month]} ${m.year+543}</h3><div class="flex flex-col lg:flex-row gap-6"><div class="w-full lg:w-2/5">${createCalendarHTML(m.month,m.year)}</div><div class="w-full lg:w-3/5">${createActivityListHTML(acts)}</div></div>`;
+    reportContainer.appendChild(monthBlock);
+  });
+
+  const selectedDate=activityDateInput.value;
+  if(selectedDate){
+    const cell=reportContainer.querySelector(`.day-cell[data-date="${selectedDate}"]`);
+    if(cell){document.querySelectorAll('.day-cell.selected').forEach(c=>c.classList.remove('selected')); cell.classList.add('selected');}
+  }
+  setTimeout(updateDots,0);
+}
+
+// --- Calendar / Activities ---
+function createCalendarHTML(month, year) {
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  let html = `<div class="grid grid-cols-7 gap-1 text-center text-xs sm:text-sm mb-2">`;
+  thaiDaysShort.forEach(d=>html+=`<div class="font-medium text-gray-500">${d}</div>`);
+  html+=`</div><div class="grid grid-cols-7 gap-1 text-center custom-scrollbar overflow-auto">`;
+  for(let i=0;i<firstDay;i++) html+=`<div></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const dateStr=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const todayCls=(dateStr===todayString)?'today':'';
+    html+=`<div data-date="${dateStr}" class="day-cell relative cursor-pointer p-1 rounded-md hover:bg-gray-200 ${todayCls}">${d}<div class="dot-container"></div></div>`;
+  }
+  html+=`</div>`;
+  return html;
+}
+
+function createActivityListHTML(acts) {
+  if(acts.length===0) return `<p class="text-gray-500 text-sm">ยังไม่มีรายการกิจกรรม</p>`;
+  let html='';
+  acts.forEach(act=>{
+    const cat=allCategories.get(act.categoryId);
+    const color=cat?cat.color:'#999';
+    const catName=cat?cat.name:'ไม่ทราบประเภท';
+    html+=`<div class="report-activity-card relative mb-3 p-3 rounded-md shadow-sm border-l-8" style="border-color:${color}">
+      <div class="flex justify-between items-center mb-1"><span class="font-medium text-gray-800">${catName}</span>
+      <button class="delete-activity-btn text-red-400 hover:text-red-600 p-1" data-id="${act.id}"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 6h6v10H7V6zm2 2v6h2V8H9z" clip-rule="evenodd"></path></svg></button></div>
+      <p class="text-gray-700 text-sm">${act.description}</p>
+      <p class="text-gray-400 text-xs mt-1">${formatThaiDate(act.date)}</p>
+    </div>`;
+  });
+  return html;
+}
+
+function updateDots() {
+  document.querySelectorAll('.day-cell').forEach(cell=>{
+    const date=cell.dataset.date;
+    const dotContainer=cell.querySelector('.dot-container');
+    dotContainer.innerHTML='';
+    const actsForDay=allActivities.filter(a=>a.date===date);
+    actsForDay.forEach(a=>{
+      const cat=allCategories.get(a.categoryId);
+      const dot=document.createElement('div'); dot.className='dot'; dot.style.backgroundColor=cat?cat.color:'#999';
+      dotContainer.appendChild(dot);
     });
-
-    const activitiesByMonth=new Map();
-    activitiesForYear.forEach(act=>{
-        const key=act.date.substring(0,7);
-        if(!activitiesByMonth.has(key)) activitiesByMonth.set(key,[]);
-        activitiesByMonth.get(key).push(act);
-    });
-
-    months.forEach(mo=>{
-        const key=`${mo.year}-${String(mo.month+1).padStart(2,'0')}`;
-        const acts=activitiesByMonth.get(key)||[];
-        acts.sort((a,b)=>a.date.localeCompare(b.date));
-        const monthBlock=document.createElement('div');
-        monthBlock.className='month-report-block bg-white shadow-lg rounded-xl p-4 sm:p-6';
-        monthBlock.innerHTML=`<h3 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2 text-zinc-500">${thaiMonths[mo.month]} ${mo.year+543}</h3><div class="flex flex-col lg:flex-row gap-6"><div class="w-full lg:w-2/5">${createMonthCalendarHTML(mo.month,mo.year)}</div><div class="w-full lg:w-3/5">${createMonthActivityListHTML(acts)}</div></div>`;
-        reportContainer.appendChild(monthBlock);
-    });
-
-    const sel=activityDateInput.value;
-    if(sel){
-        const cell=reportContainer.querySelector(`.day-cell[data-date="${sel}"]`);
-        if(cell){document.querySelectorAll('.day-cell.selected').forEach(c=>c.classList.remove('selected')); cell.classList.add('selected');}
-    }
-    setTimeout(updateActivityDots,0);
+  });
 }
-
-function createMonthCalendarHTML(month,year){
-   const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
-            const firstDayOfWeek = new Date(year, monthIndex, 1).getDay(); // 0 = Sunday
-
-            // พื้นหลังปฏิทินเป็นสีขาว (bg-white)
-            let html = `<div class="p-2 sm:p-4 rounded-lg bg-white border h-full">`;
-            
-            // Day headers
-            html += `<div class="grid grid-cols-7 text-center text-xs font-semibold text-gray-500 mb-2">`;
-            thaiDaysShort.forEach(day => {
-                html += `<div class="w-8 h-8 flex items-center justify-center">${day}</div>`;
-            });
-            html += `</div>`;
-
-            // Day cells
-            html += `<div class="grid grid-cols-7 text-center text-sm">`;
-            
-            for (let i = 0; i < firstDayOfWeek; i++) html += `<div></div>`;
-
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dateStr = `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                
-                let cellClasses = 'day-cell relative w-8 h-8 mx-auto flex items-center justify-center rounded-full cursor-pointer hover:bg-gray-200';
-                if (dateStr === todayString) {
-                    cellClasses += ' today';
-                }
-                
-                html += `
-                    <div class="${cellClasses}" data-date="${dateStr}">
-                        ${day}
-                        <div class="dot-container"></div> 
-                    </div>`;
-            }
-            html += `</div></div>`;
-            return html;
-}
-
-function createMonthActivityListHTML(activities){
-    if(activities.length===0) return `<p class="text-gray-500 text-center py-4">ยังไม่มีกิจกรรม</p>`;
-    let html='';
-    activities.forEach(act=>{
-        const cat=allCategories.get(act.categoryId);
-        const color=cat?cat.color:'#9ca3af';
-        html+=`<div class="report-activity-card bg-white p-3 rounded-md shadow-sm mb-2 border-l-8" style="border-left-color:${color};">
-            <div class="flex justify-between items-start">
-                <div>
-                    <div class="text-sm font-medium text-gray-800">${formatThaiDate(act.date)}</div>
-                    <div class="text-sm text-gray-500">${act.description}</div>
-                </div>
-                <button class="delete-activity-btn text-red-400 hover:text-red-600 p-1" data-id="${act.id}">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 6h6v10H7V6zm2 2v6h2V8H9z" clip-rule="evenodd"/></svg>
-                </button>
-            </div>
-        </div>`;
-    });
-    return html;
-}
-
-function updateActivityDots(){
-    document.querySelectorAll('.day-cell').forEach(cell=>{
-        const dateStr=cell.dataset.date;
-        const acts=allActivities.filter(a=>a.date===dateStr);
-        const container=cell.querySelector('.dot-container');
-        container.innerHTML='';
-        acts.forEach(a=>{
-            const cat=allCategories.get(a.categoryId);
-            const dot=document.createElement('span');
-            dot.className='dot';
-            dot.style.backgroundColor=cat?cat.color:'#9ca3af';
-            container.appendChild(dot);
-        });
-    });
-}
-
-async function handleAddCategory(e){
-    e.preventDefault();
-    const name=categoryNameInput.value.trim();
-    const color=categoryColorInput.value;
-    if(!name) return;
-    try{
-        await addDoc(collection(db,'users',userId,'activity_categories'),{name,color});
-        categoryNameInput.value='';
-    }catch(err){ console.error(err); }
-}
-
-async function handleDeleteCategory(id){
-    if(!confirm('คุณแน่ใจว่าจะลบประเภทนี้?')) return;
-    try{
-        await deleteDoc(doc(db,'users',userId,'activity_categories',id));
-    }catch(err){ console.error(err); }
-}
-
-async function handleAddActivity(e){
-    e.preventDefault();
-    const date=activityDateInput.value;
-    const categoryId=activityCategorySelect.value;
-    const description=activityDescInput.value.trim();
-    if(!date||!categoryId||!description) return;
-    try{
-        await addDoc(collection(db,'users',userId,'monthly_activities'),{userId,date,categoryId,description});
-        activityDescInput.value='';
-    }catch(err){ console.error(err); }
-}
-
-async function handleDeleteActivity(id){
-    if(!confirm('คุณแน่ใจว่าจะลบกิจกรรมนี้?')) return;
-    try{
-        await deleteDoc(doc(db,'users',userId,'monthly_activities',id));
-    }catch(err){ console.error(err); }
-}
-
-// ------------------ Init ------------------
-initApp();
 </script>
+
 </body>
 </html>
