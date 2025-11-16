@@ -195,43 +195,25 @@ let userId;
 let allCategories = new Map();
 let allActivities = [];
 let currentStartYear;
-        // Language constants
-        const thaiMonths = [
-            "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
-            "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
-        ];
-        const thaiDaysShort = ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"];
-        const todayString = new Date().toISOString().split('T')[0];
+const thaiMonths = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+const thaiDaysShort = ["อา","จ","อ","พ","พฤ","ศ","ส"];
+const todayString = new Date().toISOString().split('T')[0];
 
-        // --- Firebase/App State ---
-        let auth, db, userId;
-        let activitiesCollectionRef, categoriesCollectionRef;
-        let isAuthReady = false;
-        let isDemoMode = !isUserConfigSet;
-
-        // --- App State ---
-        let currentStartYear;
-        let allCategories = new Map();
-        let allActivities = [];
-
-        // --- DOM Elements ---
-        const yearRangeHeader = document.getElementById('year-range-header');
-        const yearSubtitleHeader = document.getElementById('year-subtitle-header');
-        const prevYearBtn = document.getElementById('prev-year-btn');
-        const nextYearBtn = document.getElementById('next-year-btn');
-        const reportContainer = document.getElementById('report-container');
-        const loadingMsg = document.getElementById('loading-msg');
-        
-        const categoryList = document.getElementById('category-list');
-        const noCategoryMsg = document.getElementById('no-category-msg');
-        const categoryForm = document.getElementById('category-form');
-        const categoryNameInput = document.getElementById('category-name');
-        const categoryColorInput = document.getElementById('category-color');
-
-        const activityForm = document.getElementById('activity-form');
-        const activityDateInput = document.getElementById('activity-date');
-        const activityCategorySelect = document.getElementById('activity-category');
-        const activityDescInput = document.getElementById('activity-desc');
+// ------------------ DOM ------------------
+const yearSubtitleHeader = document.getElementById('year-subtitle-header');
+const reportContainer = document.getElementById('report-container');
+const loadingMsg = document.getElementById('loading-msg');
+const categoryList = document.getElementById('category-list');
+const noCategoryMsg = document.getElementById('no-category-msg');
+const categoryForm = document.getElementById('category-form');
+const categoryNameInput = document.getElementById('category-name');
+const categoryColorInput = document.getElementById('category-color');
+const activityForm = document.getElementById('activity-form');
+const activityDateInput = document.getElementById('activity-date');
+const activityCategorySelect = document.getElementById('activity-category');
+const activityDescInput = document.getElementById('activity-desc');
+const prevYearBtn = document.getElementById('prev-year-btn');
+const nextYearBtn = document.getElementById('next-year-btn');
         
         // --- Helper Functions ---
         
